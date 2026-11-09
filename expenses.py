@@ -28,3 +28,5 @@ def load_expenses():
             row["amount"] = float(row["amount"])
             expenses.append(row)
     return expenses
+
+print(load_expenses())

@@ -31,4 +31,3 @@ def print_expenses(expenses):
     print(f"{'':<3}{"Total":<14}${total:>7.2f}")
 
 print_expenses(expenses)
-
