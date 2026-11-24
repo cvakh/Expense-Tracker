@@ -5,6 +5,19 @@ from datetime import date, datetime
 FILENAME = "expenses.csv"
 FIELDS = ["date", "amount", "category", "description"]
 
+def get_int(prompt, low, high):
+    while True:
+        text = input(prompt)
+        try:
+            number = int(text)
+        except ValueError:
+            print("Please enter a whole number.")
+            continue
+        if number < low or number > high:
+            print(f"Please enter a number from {low} to {high}.")
+            continue
+        return number
+
 def add_expense(amount, category, description):
     file_exists = os.path.exists(FILENAME)  #check if the file exists
     with open(FILENAME, "a", newline="") as f:
@@ -43,12 +56,3 @@ def total_by_category(expense):
         category = k['category']
         totals[category] = totals.get(category, 0) + k['amount']
     return totals
-
-if __name__ == "__main__":
-    fake = [
-        {"date": "2026-11-05", "amount": 10.0, "category": "food"},
-        {"date": "2026-11-20", "amount": 5.0, "category": "fun"},
-        {"date": "2026-10-30", "amount": 99.0, "category": "food"},
-    ]
-print(monthly_total(fake, 2026, 11))
-print(total_by_category(fake))

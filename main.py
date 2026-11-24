@@ -1,15 +1,15 @@
-from expenses import add_expense, load_expenses
+from expenses import add_expense, load_expenses, monthly_total, total_by_category, get_int
 
 def get_amount_from_user():
     while True:
         text = input("Amount: ")
         try:
-            amount = int(text)
+            amount = float(text)
         except ValueError:
             print("Please enter a number.")
             continue
-        if amount < 0:
-            print("amounts can't be negative.")
+        if amount <= 0:
+            print("amounts need to be greater than 0.")
             continue
         return amount
 
@@ -32,7 +32,9 @@ def show_menu():
     print("=== Expense Tracker ===")
     print("1. Add expense")
     print("2. View all expenses")
-    print("3. Quit")
+    print("3. Monthly total")
+    print("4. Total by category")
+    print("5. Quit")
 
 def main():
     while True:
@@ -47,10 +49,21 @@ def main():
         elif choice == "2":
             print_expense(load_expenses())
         elif choice == "3":
-            print("Goodbye!")
+            year = get_int("Year (e.g. 2026): ", 2000, 2100)
+            month = get_int("Month (1-12): ", 1, 12)
+            total = monthly_total(load_expenses(), year, month)
+            print(f"Total for {year}-{month:02d}: ${total:.2f}")
+        elif choice == "4":
+            totals = total_by_category(load_expenses())
+            if not totals:
+                print("No expenses yet.")
+            for category, total in totals.items():
+                print(f"{category:<14}${total:>8.2f}")
+        elif choice == "5":
+            print("alr see you ^^")
             break
         else:
-            print("Invalid choice. Please enter 1, 2, or 3.")
+            print("Invalid choice. Please enter 1, 2, 3, 4 or 5.")
 
 
 if __name__ == "__main__":
